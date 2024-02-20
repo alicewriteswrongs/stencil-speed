@@ -1,1 +1,11 @@
-{ "completedAt": "2023-12-20T21:09:23Z", "conclusion": "skipped", "databaseId": 19840009429, "name": "build-core-with-stencil-nightly", "startedAt": "2023-12-20T21:09:07Z", "status": "completed", "steps": [], "url": "https://github.com/ionic-team/ionic-framework/actions/runs/7280802416/job/19840009429" }
+{
+  "completedAt": "2023-12-20T21:09:23Z",
+  "conclusion": "skipped",
+  "databaseId": 19840009429,
+  "name": "build-core-with-stencil-nightly",
+  "startedAt": "2023-12-20T21:09:07Z",
+  "status": "completed",
+  "steps": [],
+  "url": "https://github.com/ionic-team/ionic-framework/actions/runs/7280802416/job/19840009429",
+  "completionTime": "build-core-with-stencil-nightly\tRun /./.github/workflows/actions/build-core-stencil-prerelease\t2024-02-20T06:05:15.1978301Z [05:15.1] build finished in 60.42 s"
+}
