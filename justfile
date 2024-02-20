@@ -12,9 +12,26 @@ fetch_workflows:
 fetch_jobs:
     #!/bin/bash
     cat data/workflows.json | jq '.[].databaseId' | while read workflowid ; do
-        job_json=$(gh run view --repo "ionic-team/ionic-framework" $workflowid --json jobs | jq '.jobs | .[] | select(.name == "build-core-with-stencil-nightly")')
+        job_json=$(gh run view \
+            --repo "ionic-team/ionic-framework" \
+            $workflowid \
+            --json jobs |\
+            jq '.jobs | .[] | select(.name == "build-core-with-stencil-nightly")'
+        )
         job_id=$(echo $job_json | jq '.databaseId')
-        echo $job_json > data/jobs/$job_id.json
+        raw_completion_time=$(gh run view \
+            --repo "ionic-team/ionic-framework" \
+            --job $job_id \
+            --log | grep 'build finished'
+        )
+        completion_time=$(echo "$raw_completion_time" | rev | cut -d" " -f2 | rev)
+
+        updated_json=$(echo $job_json |\
+            jq --arg c "$completion_time" '.completionTime = $c' |\
+            jq --arg r "$raw_completion_time" '.rawCompletionTime = $r'
+        )
+
+        echo "$updated_json" | jq > data/jobs/$job_id.json
     done
 
 # merge job records into a single JSON blob
