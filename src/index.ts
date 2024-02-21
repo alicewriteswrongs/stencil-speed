@@ -1,22 +1,19 @@
-// Octokit.js
-// https://github.com/octokit/core.js#readme
-import { Octokit } from "@octokit/rest";
+import {
+  fetchWorkflowRuns,
+  getStencilBuildJob,
+  getStencilNightlyWorkflow,
+} from "./github-api.js";
+import "dotenv/config";
 
 async function main() {
-  const octokit = new Octokit({
-    auth: "YOUR-TOKEN",
-  });
+  const stencilNightly = await getStencilNightlyWorkflow();
 
-  const resp = await octokit.request("GET /repos/{owner}/{repo}/actions/runs", {
-    owner: "OWNER",
-    repo: "REPO",
-    headers: {
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-    fetch,
-  });
+  const workflows = await fetchWorkflowRuns(stencilNightly);
 
-  console.log(resp);
+  const job = await getStencilBuildJob(workflows[0]);
+
+  console.log(workflows);
+  console.log(job);
 }
 
 main();
