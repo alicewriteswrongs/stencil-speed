@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "strict": true,
+    "target": "es2022",
+    "module": "esm",
+    "rootDir": "./",
+    "moduleResolution": "node10",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,                                      
+    "allowUnreachableCode": false,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true                                 
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}
