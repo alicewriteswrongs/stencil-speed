@@ -3,14 +3,15 @@
     "incremental": true,
     "strict": true,
     "target": "es2022",
-    "module": "esm",
-    "rootDir": "./",
+    "module": "es2022",
+    "rootDir": "src/",
     "moduleResolution": "node10",
     "forceConsistentCasingInFileNames": true,
     "strict": true,                                      
     "allowUnreachableCode": false,
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true                                 
+    "skipLibCheck": true,
+    "outDir": "./dist"
   },
   "include": [
     "src/**/*.ts"
