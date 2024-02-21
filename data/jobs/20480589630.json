@@ -44,5 +44,6 @@
     }
   ],
   "url": "https://github.com/ionic-team/ionic-framework/actions/runs/7524975365/job/20480589630",
-  "completionTime": "build-core-with-stencil-nightly\tRun /./.github/workflows/actions/build-core-stencil-prerelease\t2024-02-20T06:05:15.1978301Z [05:15.1] build finished in 60.42 s"
+  "completionTime": "63.76",
+  "rawCompletionTime": "build-core-with-stencil-nightly\tRun /./.github/workflows/actions/build-core-stencil-prerelease\t2024-01-15T06:05:30.7260235Z [05:30.7]  build finished in 63.76 s"
 }
