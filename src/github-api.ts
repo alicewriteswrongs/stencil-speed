@@ -1,4 +1,4 @@
-import { Octokit, RequestError } from "octokit";
+import { Octokit } from "octokit";
 import "dotenv/config";
 
 // @ts-ignore: trust me
@@ -141,11 +141,14 @@ export async function fetchLogsForJob(job: Job): Promise<string | null> {
     );
     return logs.data as string;
   } catch (e) {
-    if (e instanceof RequestError) {
-      console.error(`encountered an error fetching logs for job ${job.id}`, e);
-    } else {
-      console.error(e);
-    }
+    console.error(
+      `encountered an error fetching logs for workflow run ${job.run_id}, job ${job.id}`,
+    );
+    console.error(`job http url: ${formatJobURL(job.run_id, job.id)}`);
   }
   return null;
+}
+
+function formatJobURL(runId: number, jobId: number) {
+  return `https://github.com/${REPO_INFO.owner}/${REPO_INFO.repo}/actions/runs/${runId}/job/${jobId}`;
 }
