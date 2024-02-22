@@ -8,6 +8,9 @@ dependencies:
   '@octokit/rest':
     specifier: ^20.0.2
     version: 20.0.2
+  '@types/node':
+    specifier: ^20.11.19
+    version: 20.11.19
   dotenv:
     specifier: ^16.4.5
     version: 16.4.5

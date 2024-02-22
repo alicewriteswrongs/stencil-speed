@@ -32,7 +32,7 @@ async function fetchAllWorkflows() {
   if (resp.status === 200) {
     return resp.data.workflows;
   } else {
-    throw new Error("AAAAA");
+    throw new Error("Tried to fetch workflows but failed with status", resp.status);
   }
 }
 
@@ -53,11 +53,13 @@ export type Workflow = Awaited<ReturnType<typeof getStencilNightlyWorkflow>>;
 type UnwrapArray<Wrapped extends unknown[]> = Wrapped[number];
 
 export async function fetchWorkflowRuns(workflow: Workflow) {
+  // TODO this needs to go through all the pages
   const resp = await octokit.request(
     "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
     {
       ...REPO_INFO,
       workflow_id: workflow.id,
+      per_page: 100,
       headers: {
         "X-GitHub-Api-Version": "2022-11-28",
       },
@@ -88,7 +90,7 @@ export async function fetchJobsForWorkflowRun(workflowRun: WorkflowRun) {
 }
 
 // A job is basically a step within a workflow run
-type Job = UnwrapArray<Awaited<ReturnType<typeof fetchJobsForWorkflowRun>>>;
+export type Job = UnwrapArray<Awaited<ReturnType<typeof fetchJobsForWorkflowRun>>>;
 
 // get the job for the Stencil build that occurred during a given WorkflowRun
 export async function getStencilBuildJob(
