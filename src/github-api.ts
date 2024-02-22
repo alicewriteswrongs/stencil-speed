@@ -1,4 +1,4 @@
-import { Octokit } from "@octokit/rest";
+import { Octokit, RequestError } from "octokit";
 import "dotenv/config";
 
 // @ts-ignore: trust me
@@ -125,4 +125,27 @@ export async function getStencilBuildJob(
     return maybeJob;
   }
   throw new Error("Oh no couldn't find a job :/");
+}
+
+export async function fetchLogsForJob(job: Job): Promise<string> {
+  try {
+    const logs = await octokit.request(
+      "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
+      {
+        ...REPO_INFO,
+        job_id: job.id,
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      },
+    );
+    return logs.data as string;
+  } catch (e) {
+    if (e instanceof RequestError) {
+      console.error(`encountered an error fetching logs for job ${job.id}`, e);
+    } else {
+      throw e;
+    }
+  }
+  throw new Error("shouldn't ever reach here but TS doesn't believe me");
 }

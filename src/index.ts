@@ -1,10 +1,11 @@
 import {
+  fetchLogsForJob,
   fetchWorkflowRuns,
   getStencilBuildJob,
   getStencilNightlyWorkflow,
 } from "./github-api.js";
 import "dotenv/config";
-import { Jobs, WorkflowRuns, Workflows } from "./json.js";
+import { JobLogs, Jobs, WorkflowRuns, Workflows } from "./json.js";
 
 async function main() {
   let stencilNightlyWorkflow = Workflows.find(
@@ -36,7 +37,9 @@ async function main() {
           console.log(
             `found new job for workflow run ${run.id} with job ID ${job.id}`,
           );
-          Jobs.insert(String(job.id), job);
+          await Jobs.insert(String(job.id), job);
+          const logs = await fetchLogsForJob(job);
+          await JobLogs.insert(String(job.id), logs);
         }
       } catch (e) {
         console.error(

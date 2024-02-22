@@ -40,3 +40,9 @@ export const Workflows = createJSONTable<Workflow>("workflows");
 export const WorkflowRuns = createJSONTable<WorkflowRun>("workflow_runs");
 
 export const Jobs = createJSONTable<Job>("jobs");
+
+/**
+ * The idea here is that each key is a job ID and the value is the logs for
+ * that job.
+ */
+export const JobLogs = createJSONTable<string>("jobLogs");
