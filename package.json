@@ -12,9 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@octokit/rest": "^20.0.2",
     "@types/node": "^20.11.19",
     "dotenv": "^16.4.5",
+    "octokit": "^3.1.2",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
