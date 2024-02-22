@@ -70,7 +70,13 @@ export async function fetchWorkflowRuns(
       },
     );
 
-    return results.workflow_runs;
+    if (results.workflow_runs) {
+      return results.workflow_runs;
+    } else {
+      return results
+    }
+
+//     return results.workflow_runs;
   } else {
     // merely fetch the most recent 100 runs
     const resp = await octokit.request(
