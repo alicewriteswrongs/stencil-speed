@@ -127,7 +127,7 @@ export async function getStencilBuildJob(
   throw new Error("Oh no couldn't find a job :/");
 }
 
-export async function fetchLogsForJob(job: Job): Promise<string> {
+export async function fetchLogsForJob(job: Job): Promise<string | null> {
   try {
     const logs = await octokit.request(
       "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
@@ -144,8 +144,8 @@ export async function fetchLogsForJob(job: Job): Promise<string> {
     if (e instanceof RequestError) {
       console.error(`encountered an error fetching logs for job ${job.id}`, e);
     } else {
-      throw e;
+      console.error(e);
     }
   }
-  throw new Error("shouldn't ever reach here but TS doesn't believe me");
+  return null;
 }

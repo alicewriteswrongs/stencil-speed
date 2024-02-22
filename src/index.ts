@@ -39,7 +39,9 @@ async function main() {
           );
           await Jobs.insert(String(job.id), job);
           const logs = await fetchLogsForJob(job);
-          await JobLogs.insert(String(job.id), logs);
+          if (logs) {
+            await JobLogs.insert(String(job.id), logs);
+          }
         }
       } catch (e) {
         console.error(
@@ -47,6 +49,13 @@ async function main() {
           e,
         );
       }
+    }
+  }
+
+  for (let job of Jobs) {
+    const logs = await fetchLogsForJob(job);
+    if (logs) {
+      await JobLogs.insert(String(job.id), logs);
     }
   }
 }
