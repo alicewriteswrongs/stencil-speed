@@ -14,7 +14,7 @@ function createJSONTable<JSONType>(name: string) {
   }
 
   return {
-    get(key: string): JSONType | undefined {
+    get(key: string | number): JSONType | undefined {
       return data?.[key];
     },
     find(cb: (w: JSONType) => boolean): JSONType | undefined {
@@ -25,7 +25,7 @@ function createJSONTable<JSONType>(name: string) {
       }
       return undefined;
     },
-    async insert(key: string, record: JSONType) {
+    async insert(key: string | number, record: JSONType) {
       data[key] = record;
       await sync();
     },
