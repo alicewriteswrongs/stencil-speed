@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "strict": true,
     "target": "es2022",
     "module": "node16",
     "rootDir": "src/",
