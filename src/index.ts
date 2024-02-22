@@ -4,7 +4,7 @@ import {
   getStencilNightlyWorkflow,
 } from "./github-api.js";
 import "dotenv/config";
-import { WorkflowRuns, Workflows } from "./json.js";
+import { Jobs, WorkflowRuns, Workflows } from "./json.js";
 
 async function main() {
   let stencilNightlyWorkflow = Workflows.find(
@@ -19,18 +19,24 @@ async function main() {
     );
   }
 
-  const workflows = await fetchWorkflowRuns(stencilNightlyWorkflow, true);
+  const newWorkflows = await fetchWorkflowRuns(stencilNightlyWorkflow);
 
-  for (let run of workflows) {
+  for (let run of newWorkflows) {
     if (!WorkflowRuns.get(String(run.id))) {
+      console.log("found new workflow run with id", run.id);
       await WorkflowRuns.insert(String(run.id), run);
     }
   }
 
-  const job = await getStencilBuildJob(workflows[0]);
-
-  console.log(workflows);
-  console.log(job);
+  for (let workflowRun of WorkflowRuns) {
+    const job = await getStencilBuildJob(workflowRun);
+    if (!Jobs.get(String(job.id))) {
+      console.log(
+        `found new job for workflow run ${workflowRun.id} with job ID ${job.id}`,
+      );
+      Jobs.insert(String(job.id), job);
+    }
+  }
 }
 
 main();

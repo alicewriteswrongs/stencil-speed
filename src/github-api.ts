@@ -62,21 +62,14 @@ export async function fetchWorkflowRuns(
   if (fetchAll) {
     // get the whole world - all the workflow runs for the workflow in question ever
     const results = await octokit.paginate(
-      octokit.rest.actions.listWorkflowRunsForRepo,
+      octokit.rest.actions.listWorkflowRuns,
       {
         ...REPO_INFO,
         workflow_id: workflow.id,
         per_page: 100,
       },
     );
-
-    if (results.workflow_runs) {
-      return results.workflow_runs;
-    } else {
-      return results
-    }
-
-//     return results.workflow_runs;
+    return results;
   } else {
     // merely fetch the most recent 100 runs
     const resp = await octokit.request(

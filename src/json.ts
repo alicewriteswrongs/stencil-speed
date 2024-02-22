@@ -29,6 +29,9 @@ function createJSONTable<JSONType>(name: string) {
       data[key] = record;
       await sync();
     },
+    *[Symbol.iterator]() {
+      yield* Object.values(data);
+    },
   };
 }
 
