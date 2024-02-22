@@ -1,27 +1,16 @@
-import fs from 'fs'
-import path from 'path'
-import { Job, Workflow, WorkflowRun } from './github-api.js';
+import fs from "fs";
+import path from "path";
+import { Job, Workflow, WorkflowRun } from "./github-api.js";
 
 function createJSONTable<JSONType>(name: string) {
-  const filePath = path.join(
-    path.resolve("."),
-    "data",
-    `${name}.json`
-  );
+  const filePath = path.join(path.resolve("."), "data", `${name}.json`);
 
-  const data: Record<string, JSONType> = fs.existsSync(filePath) ?
-    JSON.parse(
-    String(
-      fs.readFileSync(filePath)
-    )
-  ) : {};
+  const data: Record<string, JSONType> = fs.existsSync(filePath)
+    ? JSON.parse(String(fs.readFileSync(filePath)))
+    : {};
 
   async function sync() {
-    await fs.promises.writeFile(filePath, JSON.stringify(
-      data,
-      null,
-      2
-    ));
+    await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
   }
 
   return {
@@ -39,12 +28,12 @@ function createJSONTable<JSONType>(name: string) {
     async insert(key: string, record: JSONType) {
       data[key] = record;
       await sync();
-    }
-  }
+    },
+  };
 }
 
-export const Workflows = createJSONTable<Workflow>('workflows');
+export const Workflows = createJSONTable<Workflow>("workflows");
 
-export const WorkflowRuns = createJSONTable<WorkflowRun>('workflow_runs');
+export const WorkflowRuns = createJSONTable<WorkflowRun>("workflow_runs");
 
-export const Jobs = createJSONTable<Job>('jobs');
+export const Jobs = createJSONTable<Job>("jobs");

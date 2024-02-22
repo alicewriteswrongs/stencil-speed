@@ -7,18 +7,19 @@ import "dotenv/config";
 import { WorkflowRuns, Workflows } from "./json.js";
 
 async function main() {
-
-  let stencilNightlyWorkflow = Workflows.find(workflow => workflow.name === "Stencil Nightly Build");
+  let stencilNightlyWorkflow = Workflows.find(
+    (workflow) => workflow.name === "Stencil Nightly Build",
+  );
   if (!stencilNightlyWorkflow) {
     stencilNightlyWorkflow = await getStencilNightlyWorkflow();
 
     await Workflows.insert(
       String(stencilNightlyWorkflow.id),
-      stencilNightlyWorkflow
+      stencilNightlyWorkflow,
     );
   }
 
-  const workflows = await fetchWorkflowRuns(stencilNightlyWorkflow);
+  const workflows = await fetchWorkflowRuns(stencilNightlyWorkflow, true);
 
   for (let run of workflows) {
     if (!WorkflowRuns.get(String(run.id))) {

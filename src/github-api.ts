@@ -32,7 +32,10 @@ async function fetchAllWorkflows() {
   if (resp.status === 200) {
     return resp.data.workflows;
   } else {
-    throw new Error("Tried to fetch workflows but failed with status", resp.status);
+    throw new Error(
+      "Tried to fetch workflows but failed with status",
+      resp.status,
+    );
   }
 }
 
@@ -52,21 +55,37 @@ export type Workflow = Awaited<ReturnType<typeof getStencilNightlyWorkflow>>;
 
 type UnwrapArray<Wrapped extends unknown[]> = Wrapped[number];
 
-export async function fetchWorkflowRuns(workflow: Workflow) {
-  // TODO this needs to go through all the pages
-  const resp = await octokit.request(
-    "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
-    {
-      ...REPO_INFO,
-      workflow_id: workflow.id,
-      per_page: 100,
-      headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
+export async function fetchWorkflowRuns(
+  workflow: Workflow,
+  fetchAll: boolean = false,
+) {
+  if (fetchAll) {
+    // get the whole world - all the workflow runs for the workflow in question ever
+    const results = await octokit.paginate(
+      octokit.rest.actions.listWorkflowRunsForRepo,
+      {
+        ...REPO_INFO,
+        workflow_id: workflow.id,
+        per_page: 100,
       },
-    },
-  );
+    );
 
-  return resp.data.workflow_runs;
+    return results.workflow_runs;
+  } else {
+    // merely fetch the most recent 100 runs
+    const resp = await octokit.request(
+      "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
+      {
+        ...REPO_INFO,
+        workflow_id: workflow.id,
+        per_page: 100,
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      },
+    );
+    return resp.data.workflow_runs;
+  }
 }
 
 // A workflow run represents a particular instance of executing a workflow
@@ -90,7 +109,9 @@ export async function fetchJobsForWorkflowRun(workflowRun: WorkflowRun) {
 }
 
 // A job is basically a step within a workflow run
-export type Job = UnwrapArray<Awaited<ReturnType<typeof fetchJobsForWorkflowRun>>>;
+export type Job = UnwrapArray<
+  Awaited<ReturnType<typeof fetchJobsForWorkflowRun>>
+>;
 
 // get the job for the Stencil build that occurred during a given WorkflowRun
 export async function getStencilBuildJob(
