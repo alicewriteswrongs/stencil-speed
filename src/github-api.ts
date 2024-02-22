@@ -71,13 +71,13 @@ export async function fetchWorkflowRuns(
     );
     return results;
   } else {
-    // merely fetch the most recent 100 runs
+    // merely fetch the most recent 50 runs
     const resp = await octokit.request(
       "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
       {
         ...REPO_INFO,
         workflow_id: workflow.id,
-        per_page: 100,
+        per_page: 50,
         headers: {
           "X-GitHub-Api-Version": "2022-11-28",
         },

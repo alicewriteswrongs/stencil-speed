@@ -11,6 +11,7 @@ async function main() {
     (workflow) => workflow.name === "Stencil Nightly Build",
   );
   if (!stencilNightlyWorkflow) {
+    // we haven't fetched and saved that workflow yet, so do so
     stencilNightlyWorkflow = await getStencilNightlyWorkflow();
 
     await Workflows.insert(
@@ -19,22 +20,30 @@ async function main() {
     );
   }
 
-  const newWorkflows = await fetchWorkflowRuns(stencilNightlyWorkflow);
+  // fetch the most recent 50 workflow runs for the Stencil nightly build
+  const newWorkflowRuns = await fetchWorkflowRuns(stencilNightlyWorkflow);
 
-  for (let run of newWorkflows) {
+  for (let run of newWorkflowRuns) {
     if (!WorkflowRuns.get(String(run.id))) {
+      // we only want to insert and then fetch jobs for workflow runs which we
+      // didn't have previously
       console.log("found new workflow run with id", run.id);
       await WorkflowRuns.insert(String(run.id), run);
-    }
-  }
 
-  for (let workflowRun of WorkflowRuns) {
-    const job = await getStencilBuildJob(workflowRun);
-    if (!Jobs.get(String(job.id))) {
-      console.log(
-        `found new job for workflow run ${workflowRun.id} with job ID ${job.id}`,
-      );
-      Jobs.insert(String(job.id), job);
+      try {
+        const job = await getStencilBuildJob(run);
+        if (!Jobs.get(String(job.id))) {
+          console.log(
+            `found new job for workflow run ${run.id} with job ID ${job.id}`,
+          );
+          Jobs.insert(String(job.id), job);
+        }
+      } catch (e) {
+        console.error(
+          `had some issue finding a job for workflow run ${run.id}`,
+          e,
+        );
+      }
     }
   }
 }
