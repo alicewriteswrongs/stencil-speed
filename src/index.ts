@@ -79,7 +79,13 @@ async function fetchAllData() {
 }
 
 async function main() {
-  await fetchNewData();
+  const fetchAll = process.argv.includes("--fetchAll");
+
+  if (fetchAll) {
+    await fetchAllData();
+  } else {
+    await fetchNewData();
+  }
 }
 
 main();
