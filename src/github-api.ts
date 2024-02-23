@@ -39,7 +39,7 @@ async function fetchAllWorkflows() {
   }
 }
 
-export async function getStencilNightlyWorkflow() {
+export async function fetchStencilNightlyWorkflow() {
   const workflows = await fetchAllWorkflows();
   const maybeWorkflow = workflows.find(
     (entry) => entry.name === "Stencil Nightly Build",
@@ -51,7 +51,7 @@ export async function getStencilNightlyWorkflow() {
 }
 
 // A workflow represents a particular yaml file saved in `.github/workflows`
-export type Workflow = Awaited<ReturnType<typeof getStencilNightlyWorkflow>>;
+export type Workflow = Awaited<ReturnType<typeof fetchStencilNightlyWorkflow>>;
 
 type UnwrapArray<Wrapped extends unknown[]> = Wrapped[number];
 
@@ -112,8 +112,8 @@ export type Job = UnwrapArray<
   Awaited<ReturnType<typeof fetchJobsForWorkflowRun>>
 >;
 
-// get the job for the Stencil build that occurred during a given WorkflowRun
-export async function getStencilBuildJob(
+// fetch the job for the Stencil build that occurred during a given WorkflowRun
+export async function fetchStencilBuildJob(
   workflowRun: WorkflowRun,
 ): Promise<Job> {
   const jobs = await fetchJobsForWorkflowRun(workflowRun);
