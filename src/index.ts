@@ -17,7 +17,8 @@ import {
  * This fetches recent workflow runs and, for any which are new, then fetches
  * the associated jobs and logs.
  */
-async function fetchNewData() {
+async function fetchRecentData() {
+  log("fetching recent data...");
   const stencilNightlyWorkflow = await getStencilNightlyWorkflow();
 
   // fetch the most recent 50 workflow runs for the Stencil nightly build
@@ -47,6 +48,7 @@ async function fetchNewData() {
  * runs, all the associated jobs, and all the associated logs.
  */
 async function fetchAllData() {
+  log("fetching all data...");
   const stencilNightlyWorkflow = await getStencilNightlyWorkflow();
 
   // fetch all the workflow runs
@@ -84,7 +86,7 @@ async function main() {
   if (fetchAll) {
     await fetchAllData();
   } else {
-    await fetchNewData();
+    await fetchRecentData();
   }
 }
 

@@ -22303,5 +22303,81 @@
     "runner_name": "GitHub Actions 3",
     "runner_group_id": 2,
     "runner_group_name": "GitHub Actions"
+  },
+  "21895358725": {
+    "id": 21895358725,
+    "run_id": 8015343746,
+    "workflow_name": "Stencil Nightly Build",
+    "head_branch": "main",
+    "run_url": "https://api.github.com/repos/ionic-team/ionic-framework/actions/runs/8015343746",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOALsEeM8AAAAFGRCpBQ",
+    "head_sha": "e440051764fa6224a67224ef2b473ce7d51a9174",
+    "url": "https://api.github.com/repos/ionic-team/ionic-framework/actions/jobs/21895358725",
+    "html_url": "https://github.com/ionic-team/ionic-framework/actions/runs/8015343746/job/21895358725",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2024-02-23T06:03:31Z",
+    "started_at": "2024-02-23T06:03:38Z",
+    "completed_at": "2024-02-23T06:05:27Z",
+    "name": "build-core-with-stencil-nightly",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2024-02-23T01:03:37.000-05:00",
+        "completed_at": "2024-02-23T01:03:38.000-05:00"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2024-02-23T01:03:38.000-05:00",
+        "completed_at": "2024-02-23T01:03:42.000-05:00"
+      },
+      {
+        "name": "Run /./.github/workflows/actions/build-core-stencil-prerelease",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2024-02-23T01:03:43.000-05:00",
+        "completed_at": "2024-02-23T01:05:23.000-05:00"
+      },
+      {
+        "name": "Post Run /./.github/workflows/actions/build-core-stencil-prerelease",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2024-02-23T01:05:23.000-05:00",
+        "completed_at": "2024-02-23T01:05:23.000-05:00"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2024-02-23T01:05:27.000-05:00",
+        "completed_at": "2024-02-23T01:05:27.000-05:00"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2024-02-23T01:05:23.000-05:00",
+        "completed_at": "2024-02-23T01:05:24.000-05:00"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/ionic-team/ionic-framework/check-runs/21895358725",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "runner_id": 363,
+    "runner_name": "GitHub Actions 203",
+    "runner_group_id": 2,
+    "runner_group_name": "GitHub Actions"
   }
 }
